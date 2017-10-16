@@ -1,0 +1,3 @@
+---
+- name: unzip consul
+  unarchive: src="/home/vagrant/downloads/consul_{{consul_version}}_linux_amd64.zip" dest=/usr/local/bin

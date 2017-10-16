@@ -1,0 +1,32 @@
+---
+- name: Create vault cert directory
+  file:
+    path: /home/vagrant/downloads
+    owner: vagrant
+    group: vagrant
+    mode: 0775
+    state: directory
+
+- name: Download Consul
+  get_url: url="https://releases.hashicorp.com/consul/{{consul_version}}/consul_{{consul_version}}_linux_amd64.zip" dest="/home/vagrant/downloads/consul_{{consul_version}}_linux_amd64.zip"
+  notify: unzip consul
+
+- name: Write consul systemd service file
+  copy: src=consul.service dest=/lib/systemd/system/consul.service mode=u=rw,g=r,o= owner=root group=root
+
+- name: Write consul config file
+  template: src=consul.conf.j2 dest=/etc/consul.conf mode=u=rw,g=r,o=
+
+- name: Create consul data directory
+  file:
+    path: /opt/consul
+    mode: 0700
+    state: directory
+
+- meta: flush_handlers
+
+- name: Enable and start consul service
+  systemd:
+    name: consul.service
+    state: started
+    enabled: True

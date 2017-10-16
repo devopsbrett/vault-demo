@@ -1,0 +1,13 @@
+---
+- name: Copy training webfiles
+  synchronize:
+    src: /tmp/training/
+    dest: /usr/share/nginx/html
+    delete: yes
+    recursive: yes
+
+- name: Enable and start nginx
+  systemd:
+    name: nginx.service
+    state: started
+    enabled: True

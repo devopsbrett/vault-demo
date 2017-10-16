@@ -1,0 +1,3 @@
+---
+- name: unzip vault
+  unarchive: src="/home/vagrant/downloads/vault_{{vault_version}}_linux_amd64.zip" dest=/usr/local/bin
